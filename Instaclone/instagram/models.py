@@ -10,8 +10,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.bio
     @classmethod
-    def my_profile(cls):
-        profiles=Profile.objects.all()
+    def my_profile(cls,user_id):
+        profiles=Profile.objects.get(id=user_id)
 
         return profiles
     @classmethod
