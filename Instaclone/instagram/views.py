@@ -10,8 +10,10 @@ from .models import Image,Profile
 def index(request):
     images=Image.my_image()
     return render(request,'index.html',{"images":images})
-def profile(request):
-    profiles=Profile.my_profile()
+
+@login_required(login_url='/accounts/login/')
+def profile(request,user_id):
+    profiles= Profile.objects.get(id = user_id)
     return render(request,'profile.html',{"profiles":profiles})
 
 
