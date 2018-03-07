@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 {%block content%}
 <div class="uk-container ">
     {% for image in images %}
-<div class="uk-card uk-card-default uk-width-1-2@m uk-margin-large uk-margin-large-top">
+<div class="uk-card uk-card-default uk-width-1-2@m uk-margin-large uk-margin-large-top uk-margin-large-bottom">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
@@ -21,7 +22,18 @@
         <img src="{{image.gallery_image.url}}"  alt="Image" height="300px"width="300px">
         {% endif %}
           <p><span uk-icon="heart"></span><span uk-icon="comment" class="uk-margin-large-left"></span><span uk-icon="bookmark"class="uk-align-right"></span></p>
-          <input class="uk-search-input" type="search" placeholder="Add comment."name='image'>
+          <div class="container-fluid">
+
+      <form  action="{%url 'comment'%}" method="post">
+      {%csrf_token%}
+
+      {% for field in form %}
+    {% bootstrap_field field %}
+{% endfor %}
+    <input type="submit" value="Add comment">
+  </form>
+
+</div>
 
     </div>
     <div class="uk-card-footer">
