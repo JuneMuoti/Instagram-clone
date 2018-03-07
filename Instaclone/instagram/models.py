@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.conf import settings
 User=get_user_model()
 
 
@@ -19,15 +20,25 @@ class Profile(models.Model):
         result = cls.objects.filter(Profile__user__icontains=query)
         return result
 
+class Likes(models.Model):
+    likes=models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.likes
+
+
+
+
 
 class Image(models.Model):
     name=models.CharField(max_length=60)
     caption=models.CharField(max_length=100)
     gallery_image=models.ImageField(upload_to='images/')
     Profile=models.ForeignKey(Profile)
-    likes=models.CharField(max_length=60,blank=True,null=True)
-    comments=models.TextField(blank=True,null=True)
+    likes=models.ManyToManyField(Likes,related_name='images')
     url=models.CharField(max_length=100,blank=True)
+    editor = models.ForeignKey(User,on_delete=models.CASCADE)
     def __str__(self):
         return self.name
     @classmethod
