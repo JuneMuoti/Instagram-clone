@@ -22,8 +22,8 @@ def comments(request):
 
 def profile(request,user_id):
     profiles= Profile.objects.get(id = user_id)
-    images=Image.objects.all()
-    return render(request,'profile.html',{"profiles":profiles},{"images":images})
+    my_images=Image.objects.filter(id = user_id)
+    return render(request,'profile.html',{"profiles":profiles},{"my_images":my_images})
 
 
 def search_results(request):

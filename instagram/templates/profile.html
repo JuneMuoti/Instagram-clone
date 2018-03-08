@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {%block content%}
+
 <div class="uk-card uk-card-default uk-width-1-1@m">
 
     <div class="uk-card-header">
@@ -16,34 +17,36 @@
         </div>
     </div>
     </div>
-    {% for image in images %}
-<div class="uk-card uk-card-default uk-width-1-2@m uk-margin-large uk-margin-large-top uk-margin-large-bottom">
-    <div class="uk-card-header">
-        <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                {% if image.Profile.profile_pic %}
-                <a href="{%url 'profile' user.id%}"><img class="uk-border-circle" width="40" height="40" src="{{image.Profile.profile_pic.url}}"></a>
-                {% endif %}
-            </div>
-            <div class="uk-width-expand">
-                  <a href="{%url 'profile' user.id%}" class="uk-button uk-button-text">{{image.Profile.user}}</a>
-                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">April 01, 2016</time></p>
-            </div>
-        </div>
-    </div>
-    <div class="uk-card-body">
-      {% if image.gallery_image %}
-        <img src="{{image.gallery_image.url}}"  alt="Image" height="300px"width="300px">
-        {% endif %}
-          <p><span uk-icon="heart"></span><span uk-icon="comment" class="uk-margin-large-left"></span><span uk-icon="bookmark"class="uk-align-right"></span></p>
-          <input class="uk-search-input" type="search" placeholder="Add comment."name='image'>
 
-    </div>
-    <div class="uk-card-footer">
-        <a href="#" class="uk-button uk-button-text">Read more</a>
-    </div>
-</div>
-{%endfor%}
+
+
+
+    <!-- <div class="uk-container">
+
+
+
+     <div class="uk-flex uk-float-left  uk-margin-medium-left uk-margin-medium-top  uk-margin-medium-right uk-margin-medium-bottom">
+
+         <div class="uk-card-large uk-card-default uk-card-body uk-animation-scale-up">
+    {%for item in my_images%}
+
+       <div class="uk-card-media-top">
+         {% if item.gallery_image %}
+           <img src="{{my_images.gallery_image.url}}"  alt="Image"width="300px"height="300px">
+           {% endif %}
+       </div>
+       <div class="uk-card-body">
+           <h3 class="uk-card-title">{{item.caption}}</h3>
+
+
+
+       </div>
+       {%endfor%}
+     </div> -->
+
+ </div>
+  </div>
+
 
 
  {%endblock %}
