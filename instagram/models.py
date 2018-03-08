@@ -25,16 +25,12 @@ class Likes(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
 
-
-
-
-
-
 class Image(models.Model):
     name=models.CharField(max_length=60)
     caption=models.CharField(max_length=100)
     gallery_image=models.ImageField(upload_to='images/')
     Profile=models.ForeignKey(Profile)
+
     likes=models.ManyToManyField(Likes,related_name='images')
     url=models.CharField(max_length=100,blank=True)
     editor = models.ForeignKey(User,on_delete=models.CASCADE)
