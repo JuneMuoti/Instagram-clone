@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{%block content%}
+<div class="uk-container ">
+    {% for image in images %}
+<div class="uk-card uk-card-default uk-width-1-2@m uk-margin-large uk-margin-large-top uk-margin-large-bottom">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                {% if image.Profile.profile_pic %}
+                <a href="{%url 'profile' user.id%}"><img class="uk-border-circle" width="30" height="3
+                  0" src="{{image.Profile.profile_pic.url}}"></a>
+                {% endif %}
+            </div>
+            <div class="uk-width-expand">
+                  <a href="{%url 'profile' user.id%}" class="uk-button uk-button-text">{{image.Profile.user}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body uk-card-media">
+      {% if image.gallery_image %}
+        <img src="{{image.gallery_image.url}}"  alt="Image" >
+        {% endif %}
+
+
+          <p><span uk-icon="heart"></span><span uk-icon="comment" class="uk-margin-large-left"></span><span uk-icon="bookmark"class="uk-align-right"></span></p>
+            <p>30likes</p>
+            <p>{{image.Profile.user}}<span class="uk-margin-small-left">{{image.caption}}</span></p>
+          <div class="container-fluid">
+
+      <form  action="{%url 'add_comment' image.id%}" method="post">
+      {%csrf_token%}
+
+      {% for field in form %}
+    {% bootstrap_field field %}
+{% endfor %}
+<input class="uk-input uk-form-blank " type="text" placeholder="Add comment..">
+
+  </form>
+
+</div>
+
+    </div>
+
+    <div class="uk-card-footer">
+
+    </div>
+</div>
+{%endfor%}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {%endblock %}
