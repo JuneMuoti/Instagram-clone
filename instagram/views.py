@@ -19,7 +19,7 @@ def comments(request):
     return JsonResponse()
 
 
-@login_required(login_url='/accounts/login/')
+
 def profile(request,user_id):
     profiles= Profile.objects.get(id = user_id)
     images=Image.objects.all()
