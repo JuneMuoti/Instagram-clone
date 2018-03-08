@@ -17,7 +17,7 @@ class Profile(models.Model):
         return profiles
     @classmethod
     def search_by_user(cls,query):
-        result = cls.objects.filter(Profile__user__icontains=query)
+        result = cls.objects.filter(user__username__icontains=query)
         return result
 
 class Likes(models.Model):
