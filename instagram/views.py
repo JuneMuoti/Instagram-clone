@@ -8,7 +8,6 @@ from django.http import JsonResponse
 
 
 @login_required(login_url='/accounts/login/')
-
 def index(request):
     images=Image.my_image()
     form = CommentsForm()
@@ -29,7 +28,7 @@ def profile(request,user_id):
 def search_results(request):
     if 'user' in request.GET and request.GET["user"]:
         queryList = request.GET.get("user")
-        searched_users = Image.search_by_user(queryList)
+        searched_users = Profile.search_by_user(queryList)
         message = f"{queryList}"
 
         return render(request, 'search.html',{"message":message,"users": searched_users})
