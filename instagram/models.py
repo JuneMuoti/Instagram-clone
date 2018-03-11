@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
+
+
 User=get_user_model()
 
 
@@ -19,19 +21,11 @@ class Profile(models.Model):
     def search_by_user(cls,query):
         result = cls.objects.filter(user__username__icontains=query)
         return result
-
-class Likes(models.Model):
-    likes=models.IntegerField()
-
-    created = models.DateTimeField(auto_now_add=True)
-
 class Image(models.Model):
     name=models.CharField(max_length=60)
     caption=models.CharField(max_length=100)
     gallery_image=models.ImageField(upload_to='images/')
     Profile=models.ForeignKey(Profile)
-
-    likes=models.ManyToManyField(Likes,related_name='images')
     url=models.CharField(max_length=100,blank=True)
     editor = models.ForeignKey(User,on_delete=models.CASCADE)
     def __str__(self):
@@ -49,6 +43,18 @@ class Image(models.Model):
 
     def update_caption(self):
         img= Image.objects.filter(id =1).update()
+
+
+class Comment(models.Model):
+    commented_by = models.ForeignKey(User)
+    for_image = models.ForeignKey(Image,related_name='comments')
+    created = models.DateTimeField(auto_now_add=True)
+    body=models.TextField(default='SOME STRING')
+
+
+class Likes(models.Model):
+    likes=models.IntegerField()
+    image=models.ForeignKey(Image,null=True)
 
 
 # Create your models here.
