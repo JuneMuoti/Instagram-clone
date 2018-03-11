@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'',include('instagram.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
-    url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout')
+    url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
+    url(r'^friendship/', include('friendship.urls')),
 
 
 ]
