@@ -8,8 +8,9 @@ urlpatterns=[
     url(r'^profile/(\d+)',views.profile,name = 'profile'),
     url(r'^search/', views.search_results, name='search_results'),
     url(r'^new/image$', views.new_image, name='new-image'),
-    url(r'^ajax/comments/$', views.comments, name='comment'),
     url(r'^comment/(?P<image_id>[0-9]+)/$', views.add_comment, name='add_comment'),
+    url(r'^image/(\d+)',views.my_image,name ='single_image'),
+    
 
 
 
