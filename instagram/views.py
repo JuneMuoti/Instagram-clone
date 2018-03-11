@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Image,Profile
 from .forms import NewImageForm,CommentsForm
 from django.http import JsonResponse
+from friendship.models import Friend, Follow
 
 
 
@@ -19,10 +20,13 @@ def comments(request):
 
 
 
+@login_required(login_url='/accounts/login/')
 def profile(request,user_id):
+
     profiles= Profile.objects.get(id = user_id)
-    my_images=Image.objects.filter(id = user_id)
-    return render(request,'profile.html',{"profiles":profiles},{"my_images":my_images})
+    my_images=Image.objects.filter(Profile__id=user_id)
+    followers=Follow.objects.followers(request.user)
+    return render(request,'profile.html',{"profiles":profiles,"my_images":my_images,'followers':followers})
 
 
 def search_results(request):
@@ -51,26 +55,23 @@ def new_image(request):
     return render(request, 'new_image.html', {"form": form})
 @login_required
 def add_comment(request, image_id):
-
-    form = CommentsForm(request.POST)
     image = Image.objects.filter(id=image_id)
+    if request.method == 'POST':
+        form = CommentsForm(request.POST)
+        if form.is_valid():
+            comment=form.save(commit=False)
+            comment.image=image
+            comment.save()
+            return redirect('index')
+    else:
+        form=CommentsForm()
+    return render(request,'add_comment.html',{'form':form})
 
-    if form.is_valid():
-        comment = Comment()
-
-        comment.image_id = image
-        comment.user = auth.get_user(request)
-        comment.content = form.cleaned_data['comment_area']
-        comment.save()
-
-        # Django does not allow to see the comments on the ID, we do not save it,
-        # Although PostgreSQL has the tools in its arsenal, but it is not going to
-        # work with raw SQL queries, so form the path after the first save
-        # And resave a comment
-
-
-        comment.save()
-
-    return redirect('index')
+def my_image(request,image_id):
+    try:
+        item= Image.objects.get(id = image_id)
+    except DoesNotExist:
+        raise Http404()
+    return render(request,"single_image.html", {"item":item})
 
 # Create your views here.
