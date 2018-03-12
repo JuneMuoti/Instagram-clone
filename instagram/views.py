@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Image,Profile
+from .models import Image,Profile,Comment
 from .forms import NewImageForm,CommentsForm
 from django.http import JsonResponse
-from friendship.models import Friend, Follow
+from friendship.models import Friend, Follow,FriendshipRequest
+
+
 
 
 
@@ -12,11 +14,8 @@ from friendship.models import Friend, Follow
 def index(request):
     images=Image.my_image()
     form = CommentsForm()
-    return render(request,'index.html',{"images":images},{"commentForm": form})
-def comments(request):
-    comment = request.POST.get('your_comment')
 
-    return JsonResponse()
+    return render(request,'index.html',{"images":images,"commentForm": form})
 
 
 
@@ -26,7 +25,8 @@ def profile(request,user_id):
     profiles= Profile.objects.get(id = user_id)
     my_images=Image.objects.filter(Profile__id=user_id)
     followers=Follow.objects.followers(request.user)
-    return render(request,'profile.html',{"profiles":profiles,"my_images":my_images,'followers':followers})
+    following=Follow.objects.following(request.user)
+    return render(request,'profile.html',{"profiles":profiles,"my_images":my_images,'followers':followers,'following':following})
 
 
 def search_results(request):
