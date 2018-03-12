@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
-{% load friendshiptags %}
+
 {%block content%}
 <div class="uk-container ">
     {% for image in images %}
@@ -24,25 +24,20 @@
         {% endif %}
 
 
-          <p><span uk-icon="heart"></span><span uk-icon="comment" class="uk-margin-large-left"></span><span uk-icon="bookmark"class="uk-align-right"></span></p>
+          <p><span uk-icon="heart"></span><span ><a href="{%url 'add_comment' image.id %}" uk-icon="comment" class="uk-margin-large-left"></a></span><span uk-icon="bookmark"class="uk-align-right"></span></p>
             <p>{{image.likes}} likes</p>
 
-            <p>{{image.Profile.user}}<span class="uk-margin-small-left">{{image.caption}}</span></p>
+            <p><span  class="uk-text-bold">{{image.Profile.user}}</span><span class="uk-margin-small-left">{{image.caption}}</span></p>
           <div class="container-fluid">
 <a href="{%url 'add_comment' image.id %}">Add comment...</a>
 
 
 </div>
-{% for comments in image.comment.all %}
-<p>{{comments.body}}</p>
-<p>{{comments.created}}good</p>
-<p>{{comments.commented_by}}</p>
+{% for comment in image.comments.all %}
+<p><span  class="uk-text-bold">{{comment.commented_by}}</span><span  class="uk-margin-small-left">{{comment.body}}</span></p>
 
 {% endfor %}
-<p>awesome</p>
-
     </div>
-
     <div class="uk-card-footer">
 
     </div>
